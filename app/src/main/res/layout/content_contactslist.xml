@@ -57,4 +57,7 @@
         android:entries="@array/SKAMPER"
         android:layout_height="wrap_content" />
 
+
+
+
 </RelativeLayout>
