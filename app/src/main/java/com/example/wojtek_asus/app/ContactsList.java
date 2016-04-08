@@ -1,5 +1,6 @@
 package com.example.wojtek_asus.app;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +24,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.messagingtutorialskeleton.R;
+//import com.example.messagingtutorialskeleton.R;
 import com.sinch.android.rtc.PushPair;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.messaging.Message;
 import com.sinch.android.rtc.messaging.MessageClient;
 import com.sinch.android.rtc.messaging.MessageClientListener;
@@ -32,26 +35,34 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 public class ContactsList extends AppCompatActivity {
 
-    private ListView contactslist;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contactslist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        contactslist = (ListView) findViewById(R.id.contactslistview);
-        ArrayList<String> StringArray = new ArrayList<String>();
-        StringArray.add("Smth");
-        List<String> contactlist = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
-            contactlist.add("Janek" + Integer.toString(i));
-        }
+
+
+
+        final SinchClient sinchClient = Sinch.getSinchClientBuilder()
+                .context(this)
+                .userId("wojtekkwa@o2.pl")
+                .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
+                .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
+                .environmentHost("sandbox.sinch.com")
+                .build();
+        sinchClient.setSupportCalling(true);
+        sinchClient.start();
 
         Button btcall = (Button) findViewById(R.id.btcall);
         btcall.setOnClickListener(new View.OnClickListener(){
+
             @Override
-        public void onClick(View view){
-                //SinchClient sinchClient = Sinch.get
+        public void onClick(View vie3w){
+
+                sinchClient.getCallClient().callUser("call-recipient-id");
             }
         });
     }
