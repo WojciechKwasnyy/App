@@ -11,5 +11,6 @@
         <item>Krystyna Pawellowicz</item>
         <item>Donald Kaczor</item>
     </string-array>
+    <string name="title_activity_call">call</string>
 
 </resources>
