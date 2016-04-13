@@ -43,7 +43,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".call"
+            android:name=".CallActivity"
             android:label="@string/title_activity_call"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

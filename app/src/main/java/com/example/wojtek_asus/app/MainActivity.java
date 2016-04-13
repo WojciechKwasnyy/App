@@ -9,16 +9,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView password_tv;
+    TextView username_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        username_tv = (TextView) findViewById(R.id.InputLogin);
+        password_tv = (TextView) findViewById(R.id.InputHaslo);
     }
 
 
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Login(View view)
     {
+        User.getInstance().username = username_tv.getText().toString();
+        User.getInstance().password = password_tv.getText().toString();
         Intent intent = new Intent(this, ContactsList.class);
         startActivity(intent);
 
