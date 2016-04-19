@@ -27,50 +27,18 @@ import java.util.List;
 
 public class ContactsList extends AppCompatActivity {
 
-    protected Call call;
+    //protected Call call;
     Button btcall;
-
+    Call call;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    public class SinchCallListener implements CallListener {
-        @Override
-        public void onCallEnded(Call endedCall) {
-            setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-        }
-        @Override
-        public void onCallEstablished(Call establishedCall) {
-            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-           // Intent intent = new Intent(getApplicationContext(), CallActivity.class);
-            //startActivity(intent);
-            //incoming CallActivity was picked up
-        }
-        @Override
-        public void onCallProgressing(Call progressingCall) {
-            //CallActivity is ringing
-        }
-        @Override
-        public void onShouldSendPushNotification(Call call, List<PushPair> pushPairs) {
-            //don't worry about this right now
-        }
 
-    }
 
-    private class SinchCallClientListener implements CallClientListener {
-        @Override
-        public void onIncomingCall(CallClient callClient, Call incomingCall) {
-            //Pick up the call!
-            call = incomingCall;
-           // Intent intent = new Intent(getApplicationContext(),CallActivity.class);
-            call.answer();
-            call.addCallListener(new SinchCallListener());
-            btcall.setText("Hang Up");
-            Toast.makeText(getApplicationContext(), "DZWONIO!!!!!!",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,36 +47,29 @@ public class ContactsList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         btcall = (Button) findViewById(R.id.btcall);
+        startService(new Intent(this, CallingService.class));
 
 
-        final SinchClient sinchClient = Sinch.getSinchClientBuilder()
-                .context(this)
-                        .userId(User.getInstance().username)
-                //.userId("wojtekkwa@o2.pl")
-                .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
-                .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
-                .environmentHost("sandbox.sinch.com")
-                .build();
-        sinchClient.setSupportCalling(true);
-        sinchClient.start();
-
-        //Rozpoczęcie nasłuchiwania połączeń przychodzących
-        sinchClient.startListeningOnActiveConnection();
-
-        sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
 
         btcall.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View vie3w) {
-                if (call == null) {
-                    call = sinchClient.getCallClient().callUser("call-recipient-id");
-                    btcall.setText("Zawieś");
-                } else {
-                    call.hangup();
-                    btcall.setText("Zadzwon");
+                if (User.getInstance().call == null) {
+                    try {
+                        User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser("call-recipient-id");
+                        Intent intent = new Intent(getApplicationContext(), CallActivity.class);
+                        startActivity(intent);
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(), "Nie da rady :/"+ e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
-                call.addCallListener(new SinchCallListener());
+
+
+
             }
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.

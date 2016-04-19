@@ -19,6 +19,7 @@
         android:label="APP"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name=".CallingService" />
         <activity
             android:name=".MainActivity"
             android:label="SKAJP"
