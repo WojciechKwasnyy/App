@@ -12,5 +12,6 @@
         <item>Donald Kaczor</item>
     </string-array>
     <string name="title_activity_call">call</string>
+    <string name="title_activity_conversation">ConversationActivity</string>
 
 </resources>

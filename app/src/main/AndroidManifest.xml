@@ -20,9 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".CallingService" />
+
         <activity
             android:name=".MainActivity"
-            android:label="SKAJP"
+            android:label="SKAMPER"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -33,7 +34,7 @@
         </activity>
         <activity
             android:name=".ContactsList"
-            android:label="SKEJP - Kontakty"
+            android:label="SKAMPER - Kontakty"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -45,8 +46,17 @@
 
         <activity
             android:name=".CallActivity"
-            android:label="@string/title_activity_call"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="Połączenie"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ConversationActivity"
+            android:label="@string/title_activity_conversation"
+            android:parentActivityName=".ContactsList"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wojtek_asus.app.ContactsList" />
+        </activity>
     </application>
 
 </manifest>

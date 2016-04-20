@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -21,6 +24,7 @@ import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.calling.CallListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import com.example.messagingtutorialskeleton.R;
@@ -36,7 +40,11 @@ public class ContactsList extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
+    //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
+    ArrayList<String> listItems=new ArrayList<String>();
 
+    //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
+    ArrayAdapter<String> adapter;
 
 
 
@@ -49,6 +57,25 @@ public class ContactsList extends AppCompatActivity {
         btcall = (Button) findViewById(R.id.btcall);
         startService(new Intent(this, CallingService.class));
 
+        final ListView myListView = (ListView) findViewById(R.id.contactslistview);
+        ArrayList<String> contacts = new ArrayList<String>();
+        contacts.add("call-recipient-id");
+        contacts.add("bialyseba@gmail.com");
+        contacts.add("wojtekkwa@o2.pl");
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
+        myListView.setAdapter(adapter);
+
+
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String chosen = (String) myListView.getAdapter().getItem(position);
+                Toast.makeText(getApplicationContext(), chosen,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         btcall.setOnClickListener(new View.OnClickListener() {
