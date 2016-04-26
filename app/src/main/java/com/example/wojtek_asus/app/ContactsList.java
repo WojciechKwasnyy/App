@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -55,7 +56,11 @@ public class ContactsList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         btcall = (Button) findViewById(R.id.btcall);
-        startService(new Intent(this, CallingService.class));
+
+
+        startService(new Intent(getApplicationContext(), CallingService.class));
+
+
 
         final ListView myListView = (ListView) findViewById(R.id.contactslistview);
         ArrayList<String> contacts = new ArrayList<String>();

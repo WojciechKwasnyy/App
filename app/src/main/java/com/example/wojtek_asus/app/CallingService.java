@@ -1,9 +1,12 @@
 package com.example.wojtek_asus.app;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Handler;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -21,15 +24,11 @@ import java.util.List;
 /**
  * Created by Białyy on 2016-04-16.
  */
-public class CallingService extends IntentService {
+public class CallingService extends Service {
     Handler mHandler = new Handler();
-    public CallingService() {
-        super("CallingService");
-    }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-
+    public void onCreate() {
 
         mHandler.post(new Runnable() {
             @Override
@@ -39,8 +38,8 @@ public class CallingService extends IntentService {
 
                 User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
                         .context(getApplicationContext())
-                        .userId(User.getInstance().username)
-                                //.userId("wojtekkwa@o2.pl")
+                        //.userId(User.getInstance().username)
+                                    .userId("call-recipient-id")
                         .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
                         .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
                         .environmentHost("sandbox.sinch.com")
@@ -62,8 +61,23 @@ public class CallingService extends IntentService {
             }
         });
 
-
+        super.onCreate();
     }
+
+    @Override
+    public void onDestroy() {
+        Toast.makeText(getApplicationContext(), "Zawijam, ELO",
+                Toast.LENGTH_LONG).show();
+        super.onDestroy();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+
 
 
     private class SinchCallClientListener implements CallClientListener {
