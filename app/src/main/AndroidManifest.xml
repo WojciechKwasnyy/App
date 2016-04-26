@@ -57,6 +57,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.wojtek_asus.app.ContactsList" />
         </activity>
+        <activity
+            android:name=".RingingActivity"
+            android:label="@string/title_activity_ringing"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

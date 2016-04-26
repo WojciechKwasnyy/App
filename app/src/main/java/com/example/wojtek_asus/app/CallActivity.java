@@ -1,5 +1,6 @@
 package com.example.wojtek_asus.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import com.sinch.android.rtc.calling.CallListener;
 import java.util.List;
 
 public class CallActivity extends AppCompatActivity {
-
+    AudioManager audioManager ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +36,20 @@ public class CallActivity extends AppCompatActivity {
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             User.getInstance().call = null;
             Intent intent = new Intent(getApplicationContext(),ContactsList.class);
+            audioManager.setSpeakerphoneOn(false);
             startActivity(intent);
         }
 
         @Override
         public void onCallEstablished(Call establishedCall) {
-            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            //setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
             // Intent intent = new Intent(getApplicationContext(), CallActivity.class);
             //startActivity(intent);
             //incoming CallActivity was picked up
+
+            audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setMode(AudioManager.MODE_IN_CALL);
+            audioManager.setSpeakerphoneOn(true);
         }
 
         @Override
