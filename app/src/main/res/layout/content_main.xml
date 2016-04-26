@@ -44,6 +44,7 @@
         android:layout_below="@+id/LogowanieLabel"
         android:layout_centerHorizontal="true"
         android:hint="login"
+        android:text="call-recipient-id"
         android:layout_marginTop="50dp" />
 
     <EditText

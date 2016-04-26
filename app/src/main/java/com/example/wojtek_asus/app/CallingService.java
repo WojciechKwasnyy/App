@@ -38,8 +38,8 @@ public class CallingService extends Service {
 
                 User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
                         .context(getApplicationContext())
-                        //.userId(User.getInstance().username)
-                                    .userId("call-recipient-id")
+                        .userId(User.getInstance().username)
+                                    //.userId("call-recipient-id")
                         .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
                         .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
                         .environmentHost("sandbox.sinch.com")
