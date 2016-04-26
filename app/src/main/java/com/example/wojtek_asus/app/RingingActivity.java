@@ -21,5 +21,8 @@ public class RingingActivity extends AppCompatActivity {
         mMediaPlayer.setLooping(true);
         mMediaPlayer.start();
     }
+    public void receivecall(){
+
+    }
 
 }

@@ -87,10 +87,11 @@ public class CallingService extends Service {
             User.getInstance().call = incomingCall;
             Toast.makeText(getApplicationContext(), "DZWONIO!!!!!!",
                     Toast.LENGTH_LONG).show();
-            User.getInstance().call.answer();
-            Intent intent = new Intent(getApplicationContext(),CallActivity.class);
+            Intent intent = new Intent(getApplicationContext(),RingingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+           // User.getInstance().call.answer();
+
            // btcall.setText("Hang Up");
 
         }
