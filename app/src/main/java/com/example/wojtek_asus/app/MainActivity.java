@@ -11,12 +11,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.firebase.client.Firebase;
 
+public class MainActivity extends AppCompatActivity {
+    Firebase myFirebaseRef = new Firebase("https:fiery-torch-1348.firebaseio.firebaseio.com/");
     TextView password_tv;
     TextView username_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

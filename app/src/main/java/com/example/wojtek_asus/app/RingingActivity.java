@@ -19,7 +19,10 @@ public class RingingActivity extends AppCompatActivity {
         mMediaPlayer = MediaPlayer.create(this, R.raw.ring);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(true);
+        mMediaPlayer.setVolume(1f, 1f);
+
         mMediaPlayer.start();
+
     }
     public void receivecall(){
 
