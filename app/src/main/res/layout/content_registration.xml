@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.wojtek_asus.app.RegistrationActivity"
+    tools:showIn="@layout/activity_registration"
+    android:id="@+id/qqqqqqqqqqeqweqweqwewqe">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LoginRejestration"
+        android:hint="login"
+        android:layout_marginTop="156dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/PasswordRejestration"
+        android:layout_alignStart="@+id/PasswordRejestration"
+        android:layout_alignRight="@+id/PasswordRejestration"
+        android:layout_alignEnd="@+id/PasswordRejestration" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/PasswordRejestration"
+        android:hint="password"
+        android:layout_below="@+id/LoginRejestration"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sing UP"
+        android:id="@+id/btRejestration"
+        android:layout_below="@+id/PasswordRejestration"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        />
+</RelativeLayout>

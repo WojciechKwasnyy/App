@@ -22,7 +22,8 @@
         android:layout_alignRight="@+id/btLogowanie"
         android:layout_alignEnd="@+id/btLogowanie"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="Register"/>
 
     <Button
         android:layout_width="wrap_content"

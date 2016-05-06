@@ -22,14 +22,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity {
-    Firebase myFirebaseRef = new Firebase("https:fiery-torch-1348.firebaseio.firebaseio.com/");
+
     TextView password_tv;
     TextView username_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,4 +79,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void Register(View view)
+    {
+        AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
+        builder11.setMessage("Napad na burdel").show();
+        Intent intent = new Intent (this, RegistrationActivity.class);
+        startActivity(intent);
+
+    }
+
 }
