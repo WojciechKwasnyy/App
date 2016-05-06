@@ -1,13 +1,16 @@
 package com.example.wojtek_asus.app;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 public class RingingActivity extends AppCompatActivity {
 
+    MediaPlayer mMediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +18,7 @@ public class RingingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        MediaPlayer mMediaPlayer = new MediaPlayer();
+        mMediaPlayer = new MediaPlayer();
         mMediaPlayer = MediaPlayer.create(this, R.raw.ring);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(true);
@@ -24,7 +27,18 @@ public class RingingActivity extends AppCompatActivity {
         mMediaPlayer.start();
 
     }
-    public void receivecall(){
+    public void receivecall(View view){
+        User.getInstance().call.answer();
+        Intent intent = new Intent(this, CallActivity.class);
+        mMediaPlayer.stop();
+        startActivity(intent);
+
+    }
+    public void abortcall(View view){
+        User.getInstance().call.hangup();
+        Intent intent = new Intent(this, ContactsList.class);
+        mMediaPlayer.stop();
+        startActivity(intent);
 
     }
 

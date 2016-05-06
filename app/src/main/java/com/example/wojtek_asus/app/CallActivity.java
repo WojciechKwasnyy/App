@@ -36,7 +36,7 @@ public class CallActivity extends AppCompatActivity {
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             User.getInstance().call = null;
             Intent intent = new Intent(getApplicationContext(),ContactsList.class);
-            audioManager.setSpeakerphoneOn(false);
+            //audioManager.setSpeakerphoneOn(false);
             startActivity(intent);
         }
 
@@ -49,7 +49,7 @@ public class CallActivity extends AppCompatActivity {
 
             audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_CALL);
-            audioManager.setSpeakerphoneOn(true);
+            //audioManager.setSpeakerphoneOn(true);
         }
 
         @Override

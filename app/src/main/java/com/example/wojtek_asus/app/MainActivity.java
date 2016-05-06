@@ -1,7 +1,9 @@
 package com.example.wojtek_asus.app;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     Firebase myFirebaseRef = new Firebase("https:fiery-torch-1348.firebaseio.firebaseio.com/");
@@ -50,6 +58,23 @@ public class MainActivity extends AppCompatActivity {
     {
         User.getInstance().username = username_tv.getText().toString();
         User.getInstance().password = password_tv.getText().toString();
+        try{
+            File file = new File(Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/Configuration");
+            if (!file.exists())
+                file.mkdirs();
+            file = new File(Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/Configuration/config_"+User.getInstance().username+".txt");
+            if(!file.exists()) {
+                file.createNewFile();
+                FileOutputStream fos = new FileOutputStream(file, false);
+                ObjectOutputStream os = new ObjectOutputStream(fos);
+                os.writeObject(User.getInstance().username);
+                os.close();
+                fos.close();
+            }
+        }catch(Exception e){
+            AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
+            builder11.setMessage(e.getMessage()).show();
+        }
         Intent intent = new Intent(this, ContactsList.class);
         startActivity(intent);
 

@@ -1,9 +1,11 @@
 package com.example.wojtek_asus.app;
 
+import android.app.AlertDialog;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -19,6 +21,8 @@ import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.calling.CallListener;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 /**
@@ -26,20 +30,31 @@ import java.util.List;
  */
 public class CallingService extends Service {
     Handler mHandler = new Handler();
-
+    private String username;
     @Override
     public void onCreate() {
-
+         username = null;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
+                try {
+                    FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/Android/data/" + getApplicationContext().getPackageName() + "/Configuration/config_" + User.getInstance().username + ".txt");
+                    ObjectInputStream is = new ObjectInputStream(fis);
+                    Object readObject = is.readObject();
+                    is.close();
+                    username = (String) readObject;
 
+                } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                User.getInstance().username = username;
+                Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "przeczytalem usera "+username, Toast.LENGTH_SHORT).show();
 
                 User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
                         .context(getApplicationContext())
-                        .userId(User.getInstance().username)
-                                    //.userId("call-recipient-id")
+                        //.userId(username)
+                                .userId("call-recipient-id")
                         .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
                         .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
                         .environmentHost("sandbox.sinch.com")
@@ -56,7 +71,6 @@ public class CallingService extends Service {
                         User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
                     }
                 });
-
 
             }
         });
