@@ -43,5 +43,6 @@
         android:layout_below="@+id/PasswordRejestration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
+        android:onClick="SignUp"
         />
 </RelativeLayout>
