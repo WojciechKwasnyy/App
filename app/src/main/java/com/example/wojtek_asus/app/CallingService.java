@@ -22,7 +22,11 @@ import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.calling.CallListener;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.util.List;
 
 /**
@@ -34,7 +38,14 @@ public class CallingService extends Service {
     @Override
     public void onCreate() {
          username = null;
-        mHandler.post(new Runnable() {
+
+        super.onCreate();
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+
+        final Thread t = new Thread() {
             @Override
             public void run() {
                 try {
@@ -43,39 +54,69 @@ public class CallingService extends Service {
                     Object readObject = is.readObject();
                     is.close();
                     username = (String) readObject;
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+
+                /*try {
+                    FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/Android/data/" + getApplicationContext().getPackageName() + "/Configuration/config_" + User.getInstance().username + ".txt");
+                    ObjectInputStream is = new ObjectInputStream(fis);
+                    Object readObject = is.readObject();
+                    is.close();
+                    username = (String) readObject;
 
                 } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }*/
+                            User.getInstance().username = username;
+                            Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "przeczytalem usera " + username, Toast.LENGTH_SHORT).show();
+
+                            User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
+                                    .context(getApplicationContext())
+                                            //.userId(username)
+                                    .userId("call-recipient-id")
+                                    .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
+                                    .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
+                                    .environmentHost("sandbox.sinch.com")
+                                    .build();
+                            User.getInstance().sinchClient.setSupportCalling(true);
+
+                            //Rozpoczęcie nasłuchiwania połączeń przychodzących
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Code here will run in UI thread
+                                    User.getInstance().sinchClient.start();
+                                    User.getInstance().sinchClient.startListeningOnActiveConnection();
+                                    User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
+                                }
+                            });
+
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (OptionalDataException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (StreamCorruptedException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+
                 }
-                User.getInstance().username = username;
-                Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "przeczytalem usera "+username, Toast.LENGTH_SHORT).show();
-
-                User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
-                        .context(getApplicationContext())
-                        //.userId(username)
-                                .userId("call-recipient-id")
-                        .applicationKey("3cc0c725-63fb-4410-a505-c438eeea1041")
-                        .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
-                        .environmentHost("sandbox.sinch.com")
-                        .build();
-                User.getInstance().sinchClient.setSupportCalling(true);
-
-                //Rozpoczęcie nasłuchiwania połączeń przychodzących
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Code here will run in UI thread
-                        User.getInstance().sinchClient.start();
-                        User.getInstance().sinchClient.startListeningOnActiveConnection();
-                        User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
-                    }
-                });
-
             }
-        });
+        };
+        t.start();
 
-        super.onCreate();
+
+
+        super.onStart(intent, startId);
     }
 
     @Override
