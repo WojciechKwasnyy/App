@@ -49,11 +49,12 @@ public class CallingService extends Service {
             @Override
             public void run() {
                 try {
+                    /*
                     FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/Android/data/" + getApplicationContext().getPackageName() + "/Configuration/config_" + User.getInstance().username + ".txt");
                     ObjectInputStream is = new ObjectInputStream(fis);
                     Object readObject = is.readObject();
                     is.close();
-                    username = (String) readObject;
+                    username = (String) readObject;*/
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -70,9 +71,9 @@ public class CallingService extends Service {
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }*/
-                            User.getInstance().username = username;
+                           // User.getInstance().username = username;
                             Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(getApplicationContext(), "przeczytalem usera " + username, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "przeczytalem usera " + User.getInstance().username, Toast.LENGTH_SHORT).show();
 
                             User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
                                     .context(getApplicationContext())
@@ -97,16 +98,7 @@ public class CallingService extends Service {
 
                         }
                     });
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (OptionalDataException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (StreamCorruptedException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
                 } finally {
 
                 }

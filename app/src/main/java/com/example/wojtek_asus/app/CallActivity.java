@@ -49,7 +49,7 @@ public class CallActivity extends AppCompatActivity {
 
             audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_CALL);
-            //audioManager.setSpeakerphoneOn(true);
+            audioManager.setSpeakerphoneOn(false);
         }
 
         @Override

@@ -10,7 +10,7 @@ import android.view.View;
 
 public class RingingActivity extends AppCompatActivity {
 
-    MediaPlayer mMediaPlayer;
+MediaPlayer mMediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,21 +23,21 @@ public class RingingActivity extends AppCompatActivity {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(true);
         mMediaPlayer.setVolume(1f, 1f);
-
         mMediaPlayer.start();
 
     }
     public void receivecall(View view){
+        mMediaPlayer.stop();
         User.getInstance().call.answer();
         Intent intent = new Intent(this, CallActivity.class);
-        mMediaPlayer.stop();
         startActivity(intent);
 
     }
     public void abortcall(View view){
+        mMediaPlayer.stop();
         User.getInstance().call.hangup();
         Intent intent = new Intent(this, ContactsList.class);
-        mMediaPlayer.stop();
+
         startActivity(intent);
 
     }
