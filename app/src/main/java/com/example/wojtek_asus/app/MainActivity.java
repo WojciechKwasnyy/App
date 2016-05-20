@@ -4,31 +4,37 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 
 public class MainActivity extends AppCompatActivity {
 
     TextView password_tv;
     TextView username_tv;
+    InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdListener(new AdListener() {@Override public void onAdClosed(){requestNewInterstitial();further();}});
+        requestNewInterstitial();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         username_tv = (TextView) findViewById(R.id.InputLogin);
         password_tv = (TextView) findViewById(R.id.InputHaslo);
     }
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -53,6 +56,31 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void requestNewInterstitial()
+    {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+
+    public void Firsts(View view)
+    {
+        if (mInterstitialAd.isLoaded())
+        {
+            mInterstitialAd.show();
+        }
+        else
+        {
+            Login (view);
+        }
+
+
+
+    }
+
 
     public void Login(View view)
     {
@@ -79,11 +107,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void further()
+    {
+        AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
+        builder11.setMessage("Dobry").show();
+        Intent intent = new Intent (this,ContactsList.class);
+        startActivity(intent);
+    }
     public void Register(View view)
     {
         AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
-        builder11.setMessage("Napad na burdel").show();
-        Intent intent = new Intent (this, RegistrationActivity.class);
+        builder11.setMessage("Napad").show();
+        Intent intent = new Intent (this,RegistrationActivity.class);
         startActivity(intent);
 
     }

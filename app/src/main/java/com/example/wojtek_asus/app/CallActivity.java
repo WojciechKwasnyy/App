@@ -15,6 +15,9 @@ import com.sinch.android.rtc.calling.CallListener;
 
 import java.util.List;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class CallActivity extends AppCompatActivity {
     AudioManager audioManager ;
     @Override
@@ -26,6 +29,11 @@ public class CallActivity extends AppCompatActivity {
         TextView zkimgadam = (TextView) findViewById(R.id.textView2);
         zkimgadam.setText(User.getInstance().call.getRemoteUserId());
         User.getInstance().call.addCallListener(new SinchCallListener());
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
     }
 
@@ -49,7 +57,7 @@ public class CallActivity extends AppCompatActivity {
 
             audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_CALL);
-            audioManager.setSpeakerphoneOn(false);
+            //audioManager.setSpeakerphoneOn(true);
         }
 
         @Override
@@ -60,12 +68,14 @@ public class CallActivity extends AppCompatActivity {
         @Override
         public void onShouldSendPushNotification(Call call, List<PushPair> pushPairs) {
             //don't worry about this right now
+
         }
     }
+
 
     public void endCall(View view)
     {
         User.getInstance().call.hangup();
     }
-    
+
 }

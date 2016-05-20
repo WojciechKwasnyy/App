@@ -32,7 +32,7 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.call, menu);
+        //inflater.inflate(R.menu.call, menu);  ------ DO ODKOMENTOWANIA
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -42,9 +42,11 @@ public class ConversationActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_call) {
+       // if (id == R.id.action_call) ----- DO ODKOMENTOWANIA
+
+        {
             try {
-                User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser("call-recipient-id");
+               // User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser("call-recipient-id");
                 Intent intent = new Intent(getApplicationContext(), CallActivity.class);
                 startActivity(intent);
             }
@@ -56,7 +58,7 @@ public class ConversationActivity extends AppCompatActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        //return super.onOptionsItemSelected(item);
     }
 
 }
