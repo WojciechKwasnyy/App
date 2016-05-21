@@ -82,6 +82,9 @@ public class ContactsList extends AppCompatActivity {
                 String chosen = (String) myListView.getAdapter().getItem(position);
                 Toast.makeText(getApplicationContext(), chosen,
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),ConversationActivity.class);
+                intent.putExtra("Chosen", chosen);
+                startActivity(intent);
             }
         });
 
