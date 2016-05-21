@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -75,17 +76,32 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
             builder11.setMessage(e.getMessage()).show();
         }
-        Intent intent = new Intent(this, ContactsList.class);
-        startActivity(intent);
+        loginClicked();
+
 
     }
     public void Register(View view)
     {
         AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
-        builder11.setMessage("Napad na burdel").show();
+        builder11.setMessage("Zarejestruj użytkownika").show();
         Intent intent = new Intent (this, RegistrationActivity.class);
         startActivity(intent);
 
     }
+    private void loginClicked() {
+        EditText Logintmp = (EditText) findViewById(R.id.InputLogin);
+        String userName = Logintmp.getText().toString();
+        if (userName.isEmpty()) {
 
+            AlertDialog.Builder builder12 = new AlertDialog.Builder(this);
+            builder12.setMessage("Wprowadź Login").show();
+
+        }
+        else
+        {
+            Intent intent = new Intent(this, ContactsList.class);
+            startActivity(intent);
+        }
+
+    }
 }
