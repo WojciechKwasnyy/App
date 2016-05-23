@@ -61,7 +61,7 @@ try
         @Override
         public void onError(FirebaseError firebaseError) {
             AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
-            builder119.setMessage(firebaseError.toString());
+            builder119.setMessage(firebaseError.toString() + "Użytkownik już istnieje");
         }
     });
 
@@ -110,10 +110,9 @@ loginClicked();
         if (UserPass.length()<8)
         {
             sum++;
-            int num = Integer.parseInt(UserPass);
 
             AlertDialog.Builder builder14 = new AlertDialog.Builder(this);
-            builder14.setMessage(num + "Za krótkie hasło").show();
+            builder14.setMessage("Za krótkie hasło").show();
         }
         int countnum = 0;
         int countupp =0;

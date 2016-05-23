@@ -1,6 +1,7 @@
 package com.example.wojtek_asus.app;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,7 +15,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +27,7 @@ import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+    Context con = this;
     TextView password_tv;
     TextView username_tv;
     @Override
@@ -90,17 +94,36 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loginClicked() {
         EditText Logintmp = (EditText) findViewById(R.id.InputLogin);
+        EditText Passwordtmp = (EditText) findViewById(R.id.InputHaslo);
         String userName = Logintmp.getText().toString();
         if (userName.isEmpty()) {
 
-            AlertDialog.Builder builder12 = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder12 = new AlertDialog.Builder(con);
             builder12.setMessage("Wprowadź Login").show();
 
         }
         else
         {
-            Intent intent = new Intent(this, ContactsList.class);
-            startActivity(intent);
+
+            Firebase ref = new Firebase("https://fiery-torch-1348.firebaseio.com");
+            ref.authWithPassword(Logintmp.getText().toString(), Passwordtmp.getText().toString(), new Firebase.AuthResultHandler() {
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    AlertDialog.Builder builder112 = new AlertDialog.Builder(con);
+                    builder112.setMessage("Zalogowano" + authData.getUid() + " Haslo" + authData.getProvider());
+
+                    Intent intent = new Intent(con, ContactsList.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    AlertDialog.Builder builder1112 = new AlertDialog.Builder(con);
+                    builder1112.setMessage("Nie zalogowano").show();
+                }
+            });
+
+
         }
 
     }
