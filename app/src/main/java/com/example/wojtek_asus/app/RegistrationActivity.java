@@ -40,7 +40,7 @@ try
 
     Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
     Firebase.setAndroidContext(getApplicationContext());
-        EditText login = (EditText) findViewById(R.id.LoginRejestration);
+        final EditText login = (EditText) findViewById(R.id.LoginRejestration);
         EditText password = (EditText) findViewById(R.id.PasswordRejestration);
         Button SignUp = (Button)findViewById(R.id.btRejestration);
 
@@ -48,29 +48,24 @@ try
     Map<String, String> UserToAdd = new HashMap<String, String>();
     UserToAdd.put("Password", password.getText().toString());
     UserToAdd.put("Login", login.getText().toString());
-   // Map<Boolean, Map<String, String>> UserToAdd2 = new HashMap<Boolean, Map<String, String>>();
-
-    //UserToAdd2.put(false, UserToAdd);
 
     usersRef.push().setValue(UserToAdd);
-    //Firebase Userek = myFirebaseRef.child("Sebix").child("2134");
-   // TempUser Sebix = new TempUser("Sebix", "1234");
-    //Userek.setValue(Sebix);
 
-       /* myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-            @Override
-            public void onSuccess(Map<String, Object> result) {
-                AlertDialog.Builder builder11 = new AlertDialog.Builder(getApplicationContext());
-                builder11.setMessage("Dodano Użytkownika").show();
-            }
+    myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+        @Override
+        public void onSuccess(Map<String, Object> result) {
+            AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
+            builder119.setMessage("Dodano Użytkownika" + login.getText().toString());
+            ;
+        }
+        @Override
+        public void onError(FirebaseError firebaseError) {
+            AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
+            builder119.setMessage(firebaseError.toString());
+        }
+    });
 
-            @Override
-            public void onError(FirebaseError firebaseError) {
-                AlertDialog.Builder builder11 = new AlertDialog.Builder(getApplicationContext());
-                builder11.setMessage("Nie dodano Użytkownika").show();
-            }
-        });
-*/loginClicked();
+loginClicked();
     passwordClicked();
         }
         catch(Exception ex)
@@ -105,7 +100,7 @@ try
             AlertDialog.Builder builder13 = new AlertDialog.Builder(this);
             builder13.setMessage("Wprowadź Login").show();
         }
-        
+
 
     }
     private void passwordClicked()

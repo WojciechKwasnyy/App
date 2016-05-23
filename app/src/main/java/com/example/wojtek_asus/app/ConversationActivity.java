@@ -23,19 +23,20 @@ public class ConversationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String chosenuser =  (String) getIntent().getSerializableExtra("Chosen");
+        String chosenuser = (String) getIntent().getSerializableExtra("Chosen");
         getSupportActionBar().setTitle(chosenuser);
 
-       
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.call, menu);
+        //inflater.inflate(R.menu.call, menu);
         return true;
     }
-    public boolean onOptionsItemSelected(MenuItem item) {
+
+   public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -57,6 +58,10 @@ public class ConversationActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
 
+
+
+
+    }
 }
+
