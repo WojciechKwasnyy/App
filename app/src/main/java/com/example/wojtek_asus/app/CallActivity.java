@@ -42,14 +42,15 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onCallEstablished(Call establishedCall) {
-            //setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
             // Intent intent = new Intent(getApplicationContext(), CallActivity.class);
             //startActivity(intent);
             //incoming CallActivity was picked up
 
-            audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+           /* audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_CALL);
             audioManager.setSpeakerphoneOn(false);
+            */
         }
 
         @Override

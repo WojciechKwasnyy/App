@@ -42,18 +42,28 @@ try
     Firebase.setAndroidContext(getApplicationContext());
         final EditText login = (EditText) findViewById(R.id.LoginRejestration);
         EditText password = (EditText) findViewById(R.id.PasswordRejestration);
-        Button SignUp = (Button)findViewById(R.id.btRejestration);
+      //  Button SignUp = (Button)findViewById(R.id.btRejestration);
 
-    Firebase usersRef = myFirebaseRef.child("Users");
-    Map<String, String> UserToAdd = new HashMap<String, String>();
-    UserToAdd.put("Password", password.getText().toString());
-    UserToAdd.put("Login", login.getText().toString());
+    //Firebase usersRef = myFirebaseRef.child("Users");
 
-    usersRef.push().setValue(UserToAdd);
-
+    //myFirebaseRef.child(login.getText().toString()).child("Contacts").setValue("dffh");
     myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
         @Override
         public void onSuccess(Map<String, Object> result) {
+            /*Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
+            Firebase.setAndroidContext(getApplicationContext());
+            final EditText login = (EditText) findViewById(R.id.LoginRejestration);
+            EditText password = (EditText) findViewById(R.id.PasswordRejestration);
+            Button SignUp = (Button)findViewById(R.id.btRejestration);
+*/
+            //Firebase usersRef = myFirebaseRef.child("Users");
+
+            /*
+            Map<String, String> UserToAdd = new HashMap<String, String>();
+            UserToAdd.put("Password", password.getText().toString());
+            UserToAdd.put("Login", login.getText().toString());
+
+            usersRef.push().setValue(UserToAdd);*/
             AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
             builder119.setMessage("Dodano Użytkownika" + login.getText().toString());
             ;

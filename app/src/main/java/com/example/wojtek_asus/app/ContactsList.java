@@ -70,6 +70,7 @@ public class ContactsList extends AppCompatActivity {
         contacts.add("call-recipient-id");
         contacts.add("bialyseba@gmail.com");
         contacts.add("wojtekkwa@o2.pl");
+        contacts.add("sebs9302@gmail.com");
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
         myListView.setAdapter(adapter);
