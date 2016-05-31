@@ -67,7 +67,10 @@
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".VideoCall"></activity>
+        <activity
+            android:name=".VideoConversation"
+            android:label="@string/title_activity_video_conversation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
