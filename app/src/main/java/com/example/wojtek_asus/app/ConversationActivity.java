@@ -16,14 +16,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ConversationActivity extends AppCompatActivity {
-
+    String chosenuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String chosenuser = (String) getIntent().getSerializableExtra("Chosen");
+        chosenuser = (String) getIntent().getSerializableExtra("Chosen");
         getSupportActionBar().setTitle(chosenuser);
 
 
@@ -32,7 +32,7 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.call, menu);
+        inflater.inflate(R.menu.call, menu);
         return true;
     }
 
@@ -45,7 +45,7 @@ public class ConversationActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_call) {
             try {
-                User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser("call-recipient-id");
+                User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser(chosenuser);
                 Intent intent = new Intent(getApplicationContext(), CallActivity.class);
                 startActivity(intent);
             }
