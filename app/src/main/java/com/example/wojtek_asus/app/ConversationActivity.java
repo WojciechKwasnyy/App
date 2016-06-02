@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ConversationActivity extends AppCompatActivity {
@@ -64,4 +65,6 @@ public class ConversationActivity extends AppCompatActivity {
 
     }
 }
+
+
 

@@ -20,6 +20,11 @@ import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.calling.CallListener;
+import com.sinch.android.rtc.messaging.Message;
+import com.sinch.android.rtc.messaging.MessageClient;
+import com.sinch.android.rtc.messaging.MessageClientListener;
+import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
+import com.sinch.android.rtc.messaging.MessageFailureInfo;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +32,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,6 +42,7 @@ import java.util.List;
 public class CallingService extends Service {
     Handler mHandler = new Handler();
     private String username;
+    private List<ChatMessage> messages;
     @Override
     public void onCreate() {
          username = null;
@@ -44,6 +52,7 @@ public class CallingService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
+        final MessagesSaver messagesSaver = new MessagesSaver();
 
         final Thread t = new Thread() {
             @Override
@@ -84,8 +93,10 @@ public class CallingService extends Service {
                                     .environmentHost("sandbox.sinch.com")
                                     .build();
                             User.getInstance().sinchClient.setSupportCalling(true);
-
+                            User.getInstance().sinchClient.setSupportMessaging(true);
                             //Rozpoczęcie nasłuchiwania połączeń przychodzących
+                            messages = messagesSaver.readmessages(getApplicationContext());
+
                             new Handler().post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -93,6 +104,36 @@ public class CallingService extends Service {
                                     User.getInstance().sinchClient.start();
                                     User.getInstance().sinchClient.startListeningOnActiveConnection();
                                     User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
+                                    Calendar calendar = Calendar.getInstance();
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                                    final String hour = simpleDateFormat.format(calendar.getTime());
+                                    MessageClient messageClient = User.getInstance().sinchClient.getMessageClient();
+                                    messageClient.addMessageClientListener(new MessageClientListener() {
+                                        @Override
+                                        public void onIncomingMessage(MessageClient messageClient, Message message) {
+                                            messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour)), messages,getApplicationContext());
+                                        }
+
+                                        @Override
+                                        public void onMessageSent(MessageClient messageClient, Message message, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
+
+                                        }
+
+                                        @Override
+                                        public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
+
+                                        }
+
+                                        @Override
+                                        public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
+
+                                        }
+                                    });
                                 }
                             });
 
@@ -127,7 +168,7 @@ public class CallingService extends Service {
 
 
 
-    private class SinchCallClientListener implements CallClientListener {
+    public class SinchCallClientListener implements CallClientListener {
         @Override
         public void onIncomingCall(CallClient callClient, Call incomingCall) {
             //Pick up the call!
@@ -142,6 +183,13 @@ public class CallingService extends Service {
            // btcall.setText("Hang Up");
 
         }
+		/*public VideoController getVideoController() {
+            if (!isStarted()) {
+                return null;
+            }
+            return mSinchClient.getVideoController();
+        }
+        */
     }
 
 

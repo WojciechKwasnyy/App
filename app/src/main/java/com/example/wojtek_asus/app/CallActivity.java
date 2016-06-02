@@ -37,6 +37,7 @@ public class CallActivity extends AppCompatActivity {
             User.getInstance().call = null;
             Intent intent = new Intent(getApplicationContext(),ContactsList.class);
             //audioManager.setSpeakerphoneOn(false);
+
             startActivity(intent);
         }
 

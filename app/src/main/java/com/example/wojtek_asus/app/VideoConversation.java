@@ -1,12 +1,19 @@
 package com.example.wojtek_asus.app;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.sinch.android.rtc.SinchClient;
+import com.sinch.android.rtc.video.VideoController;
+
 
 public class VideoConversation extends AppCompatActivity {
 
@@ -17,24 +24,30 @@ public class VideoConversation extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        AudioPlayer mAudioPlayer;
 
-/*
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.);
+
+
         mAudioPlayer = new AudioPlayer(this);
-        mCallDuration = (TextView) findViewById(R.id.callDuration);
-        mCallerName = (TextView) findViewById(R.id.remoteUser);
-        mCallState = (TextView) findViewById(R.id.callState);
-        Button endCallButton = (Button) findViewById(R.id.hangupButton);
-        endCallButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endCall();
-            }
-        });
-        mCallStart = System.currentTimeMillis();
-        mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
-        */
+        TextView CallerName = (TextView) findViewById(R.id.CallerName);
+        CallerName.setText(User.getInstance().call.getRemoteUserId());
+
+        Button endCallButton = (Button) findViewById(R.id.btEndVideo);
+
+        mAudioPlayer.stopProgressTone();
+        User.getInstance().call.hangup();
+        finish();
+
+    }/*
+    @Override
+    public void onVideoTrackAdded(Call call) {
+        // Get a reference to your SinchClient, in the samples this is done through the service interface:
+        VideoController vc = getSinchServiceInterface().getVideoController();
+       View myPreview = vc.getLocalView();
+        View remoteView = vc.getRemoteView();
+
     }
+*/
+
 
 }
