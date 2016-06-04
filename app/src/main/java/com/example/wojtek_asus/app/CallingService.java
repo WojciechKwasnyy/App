@@ -43,6 +43,7 @@ public class CallingService extends Service {
     Handler mHandler = new Handler();
     private String username;
     private List<ChatMessage> messages;
+
     @Override
     public void onCreate() {
          username = null;
@@ -107,11 +108,13 @@ public class CallingService extends Service {
                                     Calendar calendar = Calendar.getInstance();
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                                     final String hour = simpleDateFormat.format(calendar.getTime());
-                                    MessageClient messageClient = User.getInstance().sinchClient.getMessageClient();
-                                    messageClient.addMessageClientListener(new MessageClientListener() {
+                                    User.getInstance().messageClient = User.getInstance().sinchClient.getMessageClient();
+                                    User.getInstance().messageClient.addMessageClientListener(new MessageClientListener() {
                                         @Override
                                         public void onIncomingMessage(MessageClient messageClient, Message message) {
                                             messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour)), messages,getApplicationContext());
+                                            AlertDialog.Builder alrt = new AlertDialog.Builder(getApplicationContext());
+                                            alrt.setMessage(message.getTextBody() );
                                         }
 
                                         @Override

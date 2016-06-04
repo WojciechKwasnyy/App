@@ -24,17 +24,12 @@ public class VideoConversation extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AudioPlayer mAudioPlayer;
-
-
-
-        mAudioPlayer = new AudioPlayer(this);
         TextView CallerName = (TextView) findViewById(R.id.CallerName);
         CallerName.setText(User.getInstance().call.getRemoteUserId());
 
         Button endCallButton = (Button) findViewById(R.id.btEndVideo);
 
-        mAudioPlayer.stopProgressTone();
+
         User.getInstance().call.hangup();
         finish();
 
