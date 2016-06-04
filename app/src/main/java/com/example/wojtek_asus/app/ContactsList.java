@@ -59,7 +59,7 @@ public class ContactsList extends AppCompatActivity {
         setContentView(R.layout.activity_contactslist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        btcall = (Button) findViewById(R.id.btcall);
+
 
         startService(new Intent(getApplicationContext(), CallingService.class));
 
@@ -90,27 +90,7 @@ public class ContactsList extends AppCompatActivity {
         });
 
 
-        btcall.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View vie3w) {
-                if (User.getInstance().call == null) {
-                    try {
-                        User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUser("call-recipient-id");
-                        Intent intent = new Intent(getApplicationContext(), CallActivity.class);
-                        startActivity(intent);
-                    }
-                    catch(Exception e)
-                    {
-                        Toast.makeText(getApplicationContext(), "Nie da rady :/"+ e.getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-
-
-
-            }
-        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

@@ -37,19 +37,11 @@
         android:layout_height="wrap_content"
         android:text="napisz"
         android:id="@+id/btchat"
-        android:layout_marginBottom="26dp"
-        android:layout_above="@+id/button"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="zadzwon"
-        android:id="@+id/btcall"
-        android:layout_alignTop="@+id/btchat"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/button"
+        android:layout_alignRight="@+id/contactslistview"
+        android:layout_alignEnd="@+id/contactslistview" />
 
     <ListView
         android:id="@+id/contactslistview"

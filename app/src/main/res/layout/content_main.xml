@@ -45,8 +45,9 @@
         android:layout_below="@+id/LogowanieLabel"
         android:layout_centerHorizontal="true"
         android:hint="login"
-        android:text="call-recipient-id"
-        android:layout_marginTop="50dp" />
+        android:text="wojtekkwa@o2.pl"
+        android:layout_marginTop="50dp"
+        />
 
     <EditText
         android:layout_width="240dp"
@@ -58,7 +59,8 @@
         android:layout_below="@+id/InputLogin"
         android:layout_alignLeft="@+id/InputLogin"
         android:layout_alignStart="@+id/InputLogin"
-        android:layout_marginTop="31dp" />
+        android:layout_marginTop="31dp"
+        android:text="KKaa1111" />
 
     TextView
         android:layout_width="wrap_content"
