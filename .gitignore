@@ -6,3 +6,12 @@
 .DS_Store
 /build
 /captures
+app/jniLibs/
+app/libs/
+app/src/main/java/com/example/wojtek_asus/app/SinchService.java
+app/src/main/jniLibs/
+app/src/main/res/drawable/shape_notification.xml
+app/src/main/res/drawable/textview.xml
+app/src/main/res/layout/left.xml
+app/src/main/res/layout/right.xml
+libs/
