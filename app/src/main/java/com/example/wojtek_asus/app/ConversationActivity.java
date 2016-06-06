@@ -33,7 +33,7 @@ public class ConversationActivity extends AppCompatActivity {
     private ListView listView;
     private boolean side =true;
     private ChatArrayAdapter chatArrayAdapter;
-    private List<ChatMessage> messages;
+
     private MessagesSaver messagesSaver;
 
     @Override
@@ -46,6 +46,7 @@ public class ConversationActivity extends AppCompatActivity {
         //getIntent().getStringExtra("Chosen");
         getSupportActionBar().setTitle(chosenuser);
 
+
         buttonSend = (Button) findViewById(R.id.send_button);
         listView = (ListView) findViewById(R.id.messages_view);
 
@@ -53,12 +54,13 @@ public class ConversationActivity extends AppCompatActivity {
         listView.setAdapter(chatArrayAdapter);
         chatText = (EditText) findViewById(R.id.message_input);
         messagesSaver = new MessagesSaver();
-        messages = new ArrayList<ChatMessage>();
-        messages = messagesSaver.readmessages(this);
-        for(int i =0; i<messages.size();i++)
+        User.getInstance().messages = new ArrayList<ChatMessage>();
+        User.getInstance().messages = messagesSaver.readmessages(this);
+        for(int i =0; i<User.getInstance().messages.size();i++)
         {
-            chatArrayAdapter.add(messages.get(i));
+            chatArrayAdapter.add(User.getInstance().messages.get(i));
         }
+
         chatText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -100,6 +102,8 @@ public class ConversationActivity extends AppCompatActivity {
 
         });
 
+        
+
     }
 
     @Override
@@ -139,7 +143,7 @@ public class ConversationActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String formattedDate = df.format(c.getTime());
         chatArrayAdapter.add(new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate));
-        messagesSaver.savemessage((new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate)), messages, ConversationActivity.this);
+        messagesSaver.savemessage((new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate)), User.getInstance().messages, ConversationActivity.this);
         WritableMessage msg = new WritableMessage(chosenuser, chatText.getText().toString());
         User.getInstance().messageClient.send(msg);
         chatText.setText("");

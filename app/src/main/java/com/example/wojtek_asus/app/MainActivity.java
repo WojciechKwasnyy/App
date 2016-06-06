@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     builder112.setMessage("Zalogowano" + authData.getUid() + " Haslo" + authData.getProvider());
 
                     Intent intent = new Intent(con, ContactsList.class);
+                    startService(new Intent(getApplicationContext(),CallingService.class));
                     startActivity(intent);
                 }
 

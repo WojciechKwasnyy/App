@@ -34,7 +34,7 @@ public class CallActivity extends AppCompatActivity {
         @Override
         public void onCallEnded(Call endedCall) {
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            User.getInstance().call = null;
+            User.getInstance().call = endedCall;
             Intent intent = new Intent(getApplicationContext(),ContactsList.class);
             //audioManager.setSpeakerphoneOn(false);
 

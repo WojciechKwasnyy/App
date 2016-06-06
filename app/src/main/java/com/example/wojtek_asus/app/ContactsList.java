@@ -67,7 +67,7 @@ public class ContactsList extends AppCompatActivity {
 
 
 
-        startService(new Intent(getApplicationContext(), CallingService.class));
+       
 
 
 
@@ -161,6 +161,10 @@ public class ContactsList extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+    void searchuser(View view)
+    {
+
     }
 
 

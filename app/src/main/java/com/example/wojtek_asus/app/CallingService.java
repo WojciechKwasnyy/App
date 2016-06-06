@@ -1,40 +1,47 @@
-package com.example.wojtek_asus.app;
+        package com.example.wojtek_asus.app;
 
-import android.app.AlertDialog;
-import android.app.IntentService;
-import android.app.Service;
-import android.content.Intent;
-import android.media.AudioManager;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.widget.Toast;
+        import android.app.AlertDialog;
+        import android.app.IntentService;
+        import android.app.Service;
+        import android.content.Intent;
+        import android.media.AudioManager;
+        import android.media.Ringtone;
+        import android.media.RingtoneManager;
+        import android.net.Uri;
+        import android.os.Environment;
+        import android.os.Handler;
+        import android.os.IBinder;
+        import android.support.annotation.Nullable;
+        import android.support.v4.content.LocalBroadcastManager;
+        import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.sinch.android.rtc.PushPair;
-import com.sinch.android.rtc.Sinch;
-import com.sinch.android.rtc.SinchClient;
-import com.sinch.android.rtc.calling.Call;
-import com.sinch.android.rtc.calling.CallClient;
-import com.sinch.android.rtc.calling.CallClientListener;
-import com.sinch.android.rtc.calling.CallListener;
-import com.sinch.android.rtc.messaging.Message;
-import com.sinch.android.rtc.messaging.MessageClient;
-import com.sinch.android.rtc.messaging.MessageClientListener;
-import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
-import com.sinch.android.rtc.messaging.MessageFailureInfo;
+        import com.google.android.gms.appindexing.AppIndex;
+        import com.google.android.gms.common.api.GoogleApiClient;
+        import com.sinch.android.rtc.ClientRegistration;
+        import com.sinch.android.rtc.PushPair;
+        import com.sinch.android.rtc.Sinch;
+        import com.sinch.android.rtc.SinchClient;
+        import com.sinch.android.rtc.SinchClientListener;
+        import com.sinch.android.rtc.SinchError;
+        import com.sinch.android.rtc.calling.Call;
+        import com.sinch.android.rtc.calling.CallClient;
+        import com.sinch.android.rtc.calling.CallClientListener;
+        import com.sinch.android.rtc.calling.CallListener;
+        import com.sinch.android.rtc.messaging.Message;
+        import com.sinch.android.rtc.messaging.MessageClient;
+        import com.sinch.android.rtc.messaging.MessageClientListener;
+        import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
+        import com.sinch.android.rtc.messaging.MessageFailureInfo;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
+        import java.io.FileInputStream;
+        import java.io.FileNotFoundException;
+        import java.io.IOException;
+        import java.io.ObjectInputStream;
+        import java.io.OptionalDataException;
+        import java.io.StreamCorruptedException;
+        import java.text.SimpleDateFormat;
+        import java.util.Calendar;
+        import java.util.List;
 
 /**
  * Created by Białyy on 2016-04-16.
@@ -42,12 +49,15 @@ import java.util.List;
 public class CallingService extends Service {
     Handler mHandler = new Handler();
     private String username;
+    String usr;
     private List<ChatMessage> messages;
+    LocalBroadcastManager broadcaster;
 
     @Override
     public void onCreate() {
-         username = null;
-
+        username = null;
+        User.getInstance().sinchClient = null;
+        User.getInstance().messageClient = null;
         super.onCreate();
     }
 
@@ -55,33 +65,19 @@ public class CallingService extends Service {
     public void onStart(Intent intent, int startId) {
         final MessagesSaver messagesSaver = new MessagesSaver();
 
+        broadcaster = LocalBroadcastManager.getInstance(this);
+
+
         final Thread t = new Thread() {
             @Override
             public void run() {
                 try {
-                    /*
-                    FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/Android/data/" + getApplicationContext().getPackageName() + "/Configuration/config_" + User.getInstance().username + ".txt");
-                    ObjectInputStream is = new ObjectInputStream(fis);
-                    Object readObject = is.readObject();
-                    is.close();
-                    username = (String) readObject;*/
+
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
 
-
-
-                /*try {
-                    FileInputStream fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/Android/data/" + getApplicationContext().getPackageName() + "/Configuration/config_" + User.getInstance().username + ".txt");
-                    ObjectInputStream is = new ObjectInputStream(fis);
-                    Object readObject = is.readObject();
-                    is.close();
-                    username = (String) readObject;
-
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }*/
-                           // User.getInstance().username = username;
+                            // User.getInstance().username = username;
                             Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), "przeczytalem usera " + User.getInstance().username, Toast.LENGTH_SHORT).show();
 
@@ -93,52 +89,88 @@ public class CallingService extends Service {
                                     .applicationSecret("2V4L1bcagE+VcapWvc8gig==")
                                     .environmentHost("sandbox.sinch.com")
                                     .build();
-                            User.getInstance().sinchClient.setSupportCalling(true);
-                            User.getInstance().sinchClient.setSupportMessaging(true);
+
                             //Rozpoczęcie nasłuchiwania połączeń przychodzących
                             messages = messagesSaver.readmessages(getApplicationContext());
 
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Code here will run in UI thread
-                                    User.getInstance().sinchClient.start();
-                                    User.getInstance().sinchClient.startListeningOnActiveConnection();
-                                    User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
-                                    Calendar calendar = Calendar.getInstance();
-                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-                                    final String hour = simpleDateFormat.format(calendar.getTime());
-                                    User.getInstance().messageClient = User.getInstance().sinchClient.getMessageClient();
-                                    User.getInstance().messageClient.addMessageClientListener(new MessageClientListener() {
-                                        @Override
-                                        public void onIncomingMessage(MessageClient messageClient, Message message) {
-                                            messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour)), messages,getApplicationContext());
-                                            AlertDialog.Builder alrt = new AlertDialog.Builder(getApplicationContext());
-                                            alrt.setMessage(message.getTextBody() );
+
+
+                            if(!User.getInstance().sinchClient.isStarted()) {
+                                try{
+
+                                    User.getInstance().sinchClient.setSupportMessaging(true);
+                                    User.getInstance().sinchClient.setSupportCalling(true);
+                                User.getInstance().sinchClient.start();
+
+                                    User.getInstance().sinchClient.addSinchClientListener(new SinchClientListener() {
+                                        public void onClientStarted(SinchClient client) {
+                                            User.getInstance().sinchClient.startListeningOnActiveConnection();}
+                                        public void onClientStopped(SinchClient client) {
+                                            User.getInstance().sinchClient = null;
                                         }
-
-                                        @Override
-                                        public void onMessageSent(MessageClient messageClient, Message message, String s) {
-
-                                        }
-
-                                        @Override
-                                        public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
-
-                                        }
-
-                                        @Override
-                                        public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
-
-                                        }
-
-                                        @Override
-                                        public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
-
-                                        }
+                                        public void onClientFailed(SinchClient client, SinchError error) {
+                                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();}
+                                        public void onRegistrationCredentialsRequired(SinchClient client, ClientRegistration registrationCallback) { }
+                                        public void onLogMessage(int level, String area, String message) { }
                                     });
-                                }
-                            });
+
+                                User.getInstance().sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
+                                Calendar calendar = Calendar.getInstance();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                                final String hour = simpleDateFormat.format(calendar.getTime());
+                                    User.getInstance().messageClient = User.getInstance().sinchClient.getMessageClient();
+                                User.getInstance().messageClient.addMessageClientListener(new MessageClientListener() {
+                                    @Override
+                                    public void onIncomingMessage(MessageClient messageClient, Message message) {
+                                        messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour)), messages, getApplicationContext());
+
+                                        usr = message.getSenderId();
+                                        Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
+
+                                        Runnable myRunnable = new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getApplicationContext(), "Wiadomość od " + usr, Toast.LENGTH_LONG).show();
+                                                try {
+                                                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                                                    r.play();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } // This is your code
+                                        };
+                                        mainHandler.post(myRunnable);
+
+                                        Toast.makeText(getApplicationContext(), "Wiadomość od " + message.getSenderId(), Toast.LENGTH_LONG).show();
+                                        User.getInstance().sinchClient = null;
+                                    }
+
+                                    @Override
+                                    public void onMessageSent(MessageClient messageClient, Message message, String s) {
+
+                                    }
+
+                                    @Override
+                                    public void onMessageFailed(MessageClient messageClient, Message message, MessageFailureInfo messageFailureInfo) {
+
+                                    }
+
+                                    @Override
+                                    public void onMessageDelivered(MessageClient messageClient, MessageDeliveryInfo messageDeliveryInfo) {
+
+                                    }
+
+                                    @Override
+                                    public void onShouldSendPushData(MessageClient messageClient, Message message, List<PushPair> list) {
+
+                                    }
+                                });}catch (Exception e){Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();}
+                            }
+
+
+
+
 
                         }
                     });
@@ -181,9 +213,9 @@ public class CallingService extends Service {
             Intent intent = new Intent(getApplicationContext(),RingingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-           // User.getInstance().call.answer();
+            // User.getInstance().call.answer();
 
-           // btcall.setText("Hang Up");
+            // btcall.setText("Hang Up");
 
         }
 		/*public VideoController getVideoController() {
