@@ -68,6 +68,8 @@ public class CallingService extends Service {
         broadcaster = LocalBroadcastManager.getInstance(this);
 
 
+
+
         final Thread t = new Thread() {
             @Override
             public void run() {
@@ -122,7 +124,7 @@ public class CallingService extends Service {
                                 User.getInstance().messageClient.addMessageClientListener(new MessageClientListener() {
                                     @Override
                                     public void onIncomingMessage(MessageClient messageClient, Message message) {
-                                        messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour)), messages, getApplicationContext());
+                                        messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour,User.getInstance().username)), messages, getApplicationContext());
 
                                         usr = message.getSenderId();
                                         Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
@@ -143,7 +145,10 @@ public class CallingService extends Service {
                                         mainHandler.post(myRunnable);
 
                                         Toast.makeText(getApplicationContext(), "Wiadomość od " + message.getSenderId(), Toast.LENGTH_LONG).show();
-                                        User.getInstance().sinchClient = null;
+                                        Intent intent = new Intent("messenger");
+                                        intent.putExtra("message", message.getTextBody());
+                                        intent.putExtra("messagewho", message.getSenderId());
+                                        broadcaster.sendBroadcast(intent);
                                     }
 
                                     @Override
@@ -226,6 +231,8 @@ public class CallingService extends Service {
         }
         */
     }
+
+
 
 
 }
