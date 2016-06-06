@@ -30,7 +30,7 @@
         android:id="@+id/contactslistview"
         style="@style/ContactsListView"
         android:entries="@array/SKAMPER"
-        android:layout_height="437dp" />
+        android:layout_height="436dp" />
 
 
 
