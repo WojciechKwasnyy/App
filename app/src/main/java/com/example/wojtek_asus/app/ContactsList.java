@@ -88,7 +88,7 @@ public class ContactsList extends AppCompatActivity {
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
                 ContactsList.this.adapter.getFilter().filter(cs);
-                
+
             }
 
             @Override
