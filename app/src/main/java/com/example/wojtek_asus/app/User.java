@@ -6,6 +6,7 @@ import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.messaging.MessageClient;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Białyy on 2016-04-13.
@@ -15,9 +16,10 @@ public class User implements Serializable{
     public String username;
     public String password;
 
-    public MessageClient messageClient;
+    public MessageClient messageClient= null;
     public transient Call call;
-    public transient SinchClient sinchClient;
+    public transient SinchClient sinchClient = null;
+    public List<ChatMessage> messages;
 
 
     protected User() {

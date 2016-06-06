@@ -12,27 +12,44 @@
     tools:context=".ContactsList"
     tools:showIn="@layout/activity_contactslist">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="wyszukaj"
+        android:id="@+id/button"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/InputFilter"
-
+        android:id="@+id/editText"
+        android:layout_alignBottom="@+id/button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Wyszukaj" />
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button" />
 
-        <ListView
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="napisz"
+        android:id="@+id/btchat"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/button"
+        android:layout_alignRight="@+id/contactslistview"
+        android:layout_alignEnd="@+id/contactslistview" />
+
+    <ListView
         android:id="@+id/contactslistview"
         style="@style/ContactsListView"
         android:entries="@array/SKAMPER"
-        android:layout_height="437dp" />
+        android:layout_height="wrap_content" />
 
 
 
-</LinearLayout>
+
 </RelativeLayout>
