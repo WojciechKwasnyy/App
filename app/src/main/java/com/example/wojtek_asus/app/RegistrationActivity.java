@@ -24,75 +24,56 @@ import java.util.Map;
 public class RegistrationActivity extends AppCompatActivity {
 
 
-public int sum;
+    public int sum;
 
 
     @Override
     public void registerForContextMenu(View view) {
-            super.registerForContextMenu(view);
+        super.registerForContextMenu(view);
     }
 
-    public void SignUp(View view) throws IOException
-    {
-try
-{
+    public void SignUp(View view) throws IOException {
+        try {
 
 
-    Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
-    Firebase.setAndroidContext(getApplicationContext());
-        final EditText login = (EditText) findViewById(R.id.LoginRejestration);
-        EditText password = (EditText) findViewById(R.id.PasswordRejestration);
-      //  Button SignUp = (Button)findViewById(R.id.btRejestration);
-
-    //Firebase usersRef = myFirebaseRef.child("Users");
-
-    //myFirebaseRef.child(login.getText().toString()).child("Contacts").setValue("dffh");
-    myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-        @Override
-        public void onSuccess(Map<String, Object> result) {
-            /*Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
+            Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
             Firebase.setAndroidContext(getApplicationContext());
             final EditText login = (EditText) findViewById(R.id.LoginRejestration);
             EditText password = (EditText) findViewById(R.id.PasswordRejestration);
-            Button SignUp = (Button)findViewById(R.id.btRejestration);
-*/
-            //Firebase usersRef = myFirebaseRef.child("Users");
 
-            /*
-            Map<String, String> UserToAdd = new HashMap<String, String>();
-            UserToAdd.put("Password", password.getText().toString());
-            UserToAdd.put("Login", login.getText().toString());
+            myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+                @Override
+                public void onSuccess(Map<String, Object> result) {
 
-            usersRef.push().setValue(UserToAdd);*/
-            AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
-            builder119.setMessage("Dodano Użytkownika" + login.getText().toString());
-            ;
-        }
-        @Override
-        public void onError(FirebaseError firebaseError) {
-            AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
-            builder119.setMessage(firebaseError.toString() + "Użytkownik już istnieje");
-        }
-    });
+                    AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
+                    builder119.setMessage("Dodano Użytkownika" + login.getText().toString());
+                    ;
+                }
 
-loginClicked();
-    passwordClicked();
-        }
-        catch(Exception ex)
-        {
+                @Override
+                public void onError(FirebaseError firebaseError) {
+                    AlertDialog.Builder builder119 = new AlertDialog.Builder(getApplicationContext());
+                    builder119.setMessage(firebaseError.toString() + "Użytkownik już istnieje");
+                }
+            });
+
+            loginClicked();
+            passwordClicked();
+        } catch (Exception ex) {
             AlertDialog.Builder builder113 = new AlertDialog.Builder(getApplicationContext());
             builder113.setMessage(ex.getMessage()).show();
         }
-        if(sum < 1) {
+        if (sum < 1) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-    };
+    }
+
+    ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -102,6 +83,7 @@ loginClicked();
 
 
     }
+
     private void loginClicked() {
         EditText Logintmp = (EditText) findViewById(R.id.LoginRejestration);
         String userName = Logintmp.getText().toString();
@@ -113,74 +95,62 @@ loginClicked();
 
 
     }
-    private void passwordClicked()
-    {
+
+    private void passwordClicked() {
         EditText Passwordtmp = (EditText) findViewById(R.id.PasswordRejestration);
-                String UserPass = Passwordtmp.getText().toString();
-        if (UserPass.length()<8)
-        {
+        String UserPass = Passwordtmp.getText().toString();
+        if (UserPass.length() < 8) {
             sum++;
 
             AlertDialog.Builder builder14 = new AlertDialog.Builder(this);
             builder14.setMessage("Za krótkie hasło").show();
         }
         int countnum = 0;
-        int countupp =0;
-        int countlow =0;
+        int countupp = 0;
+        int countlow = 0;
 
-        for (int i = 0; i < UserPass.length(); i++)
-        {
-            if (Character.isDigit(UserPass.charAt(i)))
-            {
+        for (int i = 0; i < UserPass.length(); i++) {
+            if (Character.isDigit(UserPass.charAt(i))) {
                 countnum++;
             }
         }
 
-        for(int i=0; i < UserPass.length() ;i++)
-        {
-            if (Character.isUpperCase(UserPass.charAt(i)))
-            {
+        for (int i = 0; i < UserPass.length(); i++) {
+            if (Character.isUpperCase(UserPass.charAt(i))) {
                 countupp++;
             }
         }
-        for(int i=0; i < UserPass.length() ;i++)
-        {
-            if (Character.isLowerCase(UserPass.charAt(i)))
-            {
+        for (int i = 0; i < UserPass.length(); i++) {
+            if (Character.isLowerCase(UserPass.charAt(i))) {
                 countlow++;
             }
         }
-        if (countnum<2)
-        {
+        if (countnum < 2) {
             sum++;
             AlertDialog.Builder builder15 = new AlertDialog.Builder(this);
             builder15.setMessage("Hasło powinno zawierać minimum 2 cyfry").show();
         }
-        if (countlow<2)
-        {
+        if (countlow < 2) {
             sum++;
             AlertDialog.Builder builder17 = new AlertDialog.Builder(this);
             builder17.setMessage("Hasło powinno zawierać minimum 2 małe litery").show();
         }
-        if (countupp<2)
-        {
+        if (countupp < 2) {
             sum++;
             AlertDialog.Builder builder16 = new AlertDialog.Builder(this);
             builder16.setMessage("Hasło powinno zawierać minimum 2 duże litery").show();
         }
     }
-class TempUser
-{
-    String TmpLogin;
-    String TmpPass;
 
-    TempUser(String TmpLogin, String TmpPass)
-    {
-        this.TmpLogin=TmpLogin;
-        this.TmpPass=TmpPass;
+    class TempUser {
+        String TmpLogin;
+        String TmpPass;
+
+        TempUser(String TmpLogin, String TmpPass) {
+            this.TmpLogin = TmpLogin;
+            this.TmpPass = TmpPass;
+        }
+
+
     }
-
-
-
-}
 }

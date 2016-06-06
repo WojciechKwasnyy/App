@@ -9,10 +9,13 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,6 +42,8 @@ public class ContactsList extends AppCompatActivity {
     //protected Call call;
     Button btcall;
     Call call;
+    ListView LV;
+    EditText InputSearch;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -61,6 +66,7 @@ public class ContactsList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+
         startService(new Intent(getApplicationContext(), CallingService.class));
 
 
@@ -72,8 +78,30 @@ public class ContactsList extends AppCompatActivity {
         contacts.add("wojtekkwa@o2.pl");
         contacts.add("sebs9302@gmail.com");
 
+        LV = (ListView) findViewById(R.id.contactslistview);
+        InputSearch = (EditText) findViewById(R.id.InputFilter);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
-        myListView.setAdapter(adapter);
+        LV.setAdapter(adapter);
+        InputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                ContactsList.this.adapter.getFilter().filter(cs);
+                AlertDialog.Builder alrt3 = new AlertDialog.Builder(getApplicationContext());
+                alrt3.setMessage("bleble");
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
+        //
+       // myListView.setAdapter(adapter);
 
 
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

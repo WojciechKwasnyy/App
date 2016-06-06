@@ -14,9 +14,12 @@ public class User implements Serializable{
     public static User instance = new User();
     public String username;
     public String password;
+
     public MessageClient messageClient;
     public transient Call call;
     public transient SinchClient sinchClient;
+
+
     protected User() {
         // Exists only to defeat instantiation.
     }
