@@ -59,6 +59,7 @@ public class CallingService extends Service {
         User.getInstance().sinchClient = null;
         User.getInstance().messageClient = null;
         super.onCreate();
+
     }
 
     @Override

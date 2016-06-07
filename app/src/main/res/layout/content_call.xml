@@ -82,11 +82,12 @@
             android:layout_height="wrap_content"
             android:text="Video"
             android:id="@+id/btvideo"
-            android:onClick="VIDEO"
+            android:onClick="VideoCallButtonClicked"
             android:layout_gravity="bottom"
             android:layout_alignTop="@+id/button2"
             android:layout_toRightOf="@+id/button2"
-            android:layout_alignBottom="@+id/button2" />
+            android:layout_alignBottom="@+id/button2"
+            />
 
     </RelativeLayout>
 
