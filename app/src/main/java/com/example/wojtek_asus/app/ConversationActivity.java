@@ -39,6 +39,7 @@ public class ConversationActivity extends AppCompatActivity {
     private ChatArrayAdapter chatArrayAdapter;
     private BroadcastReceiver receiver;
     private MessagesSaver messagesSaver;
+    public List<ChatMessage> currenMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class ConversationActivity extends AppCompatActivity {
         messagesSaver = new MessagesSaver();
         User.getInstance().messages = new ArrayList<ChatMessage>();
 
-        List<ChatMessage> messageshere = new ArrayList<ChatMessage>();
+
 
 
 

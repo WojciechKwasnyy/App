@@ -124,7 +124,9 @@ public class CallingService extends Service {
                                 User.getInstance().messageClient.addMessageClientListener(new MessageClientListener() {
                                     @Override
                                     public void onIncomingMessage(MessageClient messageClient, Message message) {
-                                        messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour,User.getInstance().username)), messages, getApplicationContext());
+                                        messages = messagesSaver.readmessages(getApplicationContext());
+                                        messagesSaver.savemessage((new ChatMessage(false, message.getTextBody(), message.getSenderId(), hour, User.getInstance().username)), messages, getApplicationContext());
+                                        User.getInstance().messages = messagesSaver.readmessages(getApplicationContext());
 
                                         usr = message.getSenderId();
                                         Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
