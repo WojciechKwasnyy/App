@@ -53,7 +53,7 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         dateField = (TextView) row.findViewById(R.id.date);
         dateField.setText(chatMessageObj.date);
         userField = (TextView) row.findViewById(R.id.duration);
-        userField.setText(chatMessageObj.user);
+        userField.setText(chatMessageObj.sender);
         return row;
     }
 }

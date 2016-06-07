@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Login(View view)
     {
-        User.getInstance().username = username_tv.getText().toString();
+
         User.getInstance().password = password_tv.getText().toString();
         try{
             File file = new File(Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/Configuration");
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     AlertDialog.Builder builder112 = new AlertDialog.Builder(con);
                     builder112.setMessage("Zalogowano" + authData.getUid() + " Haslo" + authData.getProvider());
 
+                    User.getInstance().username = username_tv.getText().toString();
                     Intent intent = new Intent(con, ContactsList.class);
                     startService(new Intent(getApplicationContext(),CallingService.class));
                     startActivity(intent);

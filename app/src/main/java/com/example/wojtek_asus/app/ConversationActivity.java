@@ -1,10 +1,14 @@
 package com.example.wojtek_asus.app;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -33,8 +37,9 @@ public class ConversationActivity extends AppCompatActivity {
     private ListView listView;
     private boolean side =true;
     private ChatArrayAdapter chatArrayAdapter;
-
+    private BroadcastReceiver receiver;
     private MessagesSaver messagesSaver;
+    public List<ChatMessage> currenMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +60,28 @@ public class ConversationActivity extends AppCompatActivity {
         chatText = (EditText) findViewById(R.id.message_input);
         messagesSaver = new MessagesSaver();
         User.getInstance().messages = new ArrayList<ChatMessage>();
+
+
+
+
+
+
         User.getInstance().messages = messagesSaver.readmessages(this);
-        for(int i =0; i<User.getInstance().messages.size();i++)
+
+        for(int i=0;i< User.getInstance().messages.size();i++)
         {
-            chatArrayAdapter.add(User.getInstance().messages.get(i));
+            if(User.getInstance().messages.get(i).left == false && User.getInstance().messages.get(i).sender.equals(chosenuser))
+            {
+                chatArrayAdapter.add(User.getInstance().messages.get(i));
+            }
+
+            if(User.getInstance().messages.get(i).left == true && User.getInstance().messages.get(i).recipient.equals(chosenuser))
+            {
+                chatArrayAdapter.add(User.getInstance().messages.get(i));
+            }
         }
+
+
 
         chatText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -102,8 +124,44 @@ public class ConversationActivity extends AppCompatActivity {
 
         });
 
-        
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String mes = intent.getStringExtra("message");
+                String who = intent.getStringExtra("messagewho");
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                final String hour = simpleDateFormat.format(calendar.getTime());
+
+                if(who.equals(chosenuser)) {
+                    chatArrayAdapter.add(new ChatMessage(false, mes, who, hour, User.getInstance().username));
+                }
+                // do something here.
+            }
+        };
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter("messenger")
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(),ContactsList.class));
     }
 
     @Override
@@ -140,15 +198,16 @@ public class ConversationActivity extends AppCompatActivity {
     private boolean sendChatMessage()
     {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         String formattedDate = df.format(c.getTime());
-        chatArrayAdapter.add(new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate));
-        messagesSaver.savemessage((new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate)), User.getInstance().messages, ConversationActivity.this);
+        chatArrayAdapter.add(new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate,chosenuser));
+        messagesSaver.savemessage((new ChatMessage(true, chatText.getText().toString(), User.getInstance().username, formattedDate,chosenuser)), User.getInstance().messages, ConversationActivity.this);
         WritableMessage msg = new WritableMessage(chosenuser, chatText.getText().toString());
         User.getInstance().messageClient.send(msg);
         chatText.setText("");
         return true;
     }
+
 }
 
 
