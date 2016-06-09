@@ -39,7 +39,7 @@ public class CallActivity extends BaseActivity  {
         TextView zkimgadam = (TextView) findViewById(R.id.textView2);
         zkimgadam.setText(User.getInstance().call.getRemoteUserId());
         User.getInstance().call.addCallListener(new SinchCallListener());
-
+        onVideoTrackAdded( User.getInstance().call);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class CallActivity extends BaseActivity  {
 
         endCall();
     }
-    private void VideoCallButtonClicked(View view) {
+    public void VideoCallButtonClicked(View view) {
        onVideoTrackAdded(User.getInstance().call);
         String userName = User.getInstance().call.getRemoteUserId();
         if (userName.isEmpty()) {
