@@ -45,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                Login();
+
                 requestNewInterstitial();
+                Intent intent = new Intent(con, ContactsList.class);
+                startActivity(intent);
             }
         });
         requestNewInterstitial();
@@ -65,11 +67,16 @@ public class MainActivity extends AppCompatActivity {
     {
         if (mInterstitialAd.isLoaded())
         {
+
+            Login();
             mInterstitialAd.show();
+
         }
         else
         {
-            Login ();
+            Login();
+            Intent intent = new Intent(con, ContactsList.class);
+            startActivity(intent);
         }
 
     }
@@ -147,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
                     builder112.setMessage("Zalogowano" + authData.getUid() + " Haslo" + authData.getProvider());
 
                     User.getInstance().username = username_tv.getText().toString();
-                    Intent intent = new Intent(con, ContactsList.class);
+
                     startService(new Intent(getApplicationContext(), CallingService.class));
-                    startActivity(intent);
+
                 }
 
                 @Override
