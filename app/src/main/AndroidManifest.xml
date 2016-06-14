@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ContactsList"
             android:label="SKAMPER - Kontakty"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -49,10 +50,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".CallActivity"
             android:label="Połączenie"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".ConversationActivity"
             android:label="@string/title_activity_conversation"
             android:parentActivityName=".ContactsList"
@@ -62,12 +65,14 @@
                 android:value="com.example.wojtek_asus.app.ContactsList" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".RingingActivity"
             android:label="@string/title_activity_ringing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration"
+            android:label="SKAMPER - Rejestracja"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

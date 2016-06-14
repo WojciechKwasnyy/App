@@ -41,14 +41,14 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/PasswordRejestration"
-        android:hint="password"
+        android:hint="hasło"
         android:layout_below="@+id/LoginRejestration"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign UP"
+        android:text="Zarejestruj"
         android:id="@+id/btRejestration"
         android:layout_below="@+id/PasswordRejestration"
         android:layout_centerHorizontal="true"
@@ -56,12 +56,6 @@
         android:onClick="SignUp"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remember Password"
-        android:id="@+id/button4"
-        android:layout_below="@+id/btRejestration"
-        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

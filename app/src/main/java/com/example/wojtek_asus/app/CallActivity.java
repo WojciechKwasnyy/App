@@ -28,6 +28,7 @@ public class CallActivity extends BaseActivity  {
     AudioManager audioManager ;
     VideoController vc;
     CallEndCause caus;
+    boolean videoinviter = false;
     AudioPlayer mAudioPlayer;
     private String mCallId;
     @Override
@@ -39,29 +40,38 @@ public class CallActivity extends BaseActivity  {
         TextView zkimgadam = (TextView) findViewById(R.id.textView2);
         zkimgadam.setText(User.getInstance().call.getRemoteUserId());
         User.getInstance().call.addCallListener(new SinchCallListener());
-        onVideoTrackAdded( User.getInstance().call);
-    }
+if(User.getInstance().call.getDetails().isVideoOffered() == true)
+{
+    onVideoTrackAdded();
 
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-
+}
     }
 
 
     public class SinchCallListener implements CallListener {
         @Override
         public void onCallEnded(Call endedCall) {
+            //if(User.getInstance().call.getDetails().isVideoOffered() == true) {
+            //recreate();
+            //}
+
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             User.getInstance().call = endedCall;
-            Intent intent = new Intent(getApplicationContext(),ContactsList.class);
-            //audioManager.setSpeakerphoneOn(false);
 
-            startActivity(intent);
+            if(videoinviter)
+            {
+                videoinviter = false;
+                //Intent intent = new Intent(getApplicationContext(),CallActivity.class);
+                //audioManager.setSpeakerphoneOn(false);
+              // startActivity(intent);
+            }
+            else {
+
+                //'finish();
+                Intent intent = new Intent(getApplicationContext(), ContactsList.class);
+                //audioManager.setSpeakerphoneOn(false);
+                startActivity(intent);
+            }
         }
 
         @Override
@@ -87,23 +97,26 @@ public class CallActivity extends BaseActivity  {
         }
     }
 
-    private void endCall() {
-        mAudioPlayer.stopProgressTone();
-        Call call = getSinchServiceInterface().getCall(mCallId);
-        if (call != null) {
-            call.hangup();
-        }
-        finish();
+    public void endCall(View view) {
+        //mAudioPlayer.stopProgressTone();
+
+        if (User.getInstance().call != null) {
+            User.getInstance().call.hangup();
+                    }
+finish();
     }
-    public void onVideoTrackAdded(Call call)
+    public void onVideoTrackAdded()
     {
-        vc = getSinchServiceInterface().getVideoController();
+vc = User.getInstance().sinchClient.getVideoController();
+
         LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
         view.addView(vc.getRemoteView());
         RelativeLayout localView = (RelativeLayout) findViewById(R.id.localVideo);
         localView.addView(vc.getLocalView());
-        View myPreview = vc.getLocalView();
-        View remoteView = vc.getRemoteView();
+        //View myPreview = vc.getLocalView();
+        //View remoteView = vc.getRemoteView();
+        User.getInstance().sinchClient.getAudioController();
+
     }
 
     public void onCallEnded(Call call) {
@@ -111,19 +124,25 @@ public class CallActivity extends BaseActivity  {
 
         mAudioPlayer.stopProgressTone();
         setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-        String endMsg = "Call ended: ";
 
-        endCall();
+
+        //endCall(View view);
     }
     public void VideoCallButtonClicked(View view) {
-       onVideoTrackAdded(User.getInstance().call);
+        User.getInstance().call.hangup();
+        videoinviter = true;
+       onVideoTrackAdded();
+
         String userName = User.getInstance().call.getRemoteUserId();
         if (userName.isEmpty()) {
-            Toast.makeText(this, "Please enter a user to call", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Nie przeczytałem odbiorcy", Toast.LENGTH_LONG).show();
             return;
         }
-        Call call = getSinchServiceInterface().callUserVideo(userName);
-        String callId = call.getCallId();
-call.answer();
+        User.getInstance().call = User.getInstance().sinchClient.getCallClient().callUserVideo(userName);
+
+        User.getInstance().call.getCallId();
+
+
+
     }
 }

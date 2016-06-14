@@ -1,6 +1,7 @@
 package com.example.wojtek_asus.app;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     public int sum;
-
+    AlertDialog builder11;
 
     @Override
     public void registerForContextMenu(View view) {
@@ -79,6 +80,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
+
+        builder11 = new AlertDialog.Builder( RegistrationActivity.this).create();
+        builder11.setTitle("Zarejestruj użytkownika");
+        builder11.setMessage(" \n \n • Podaj login w postaci maila \n \u2022 Podaj hasło zawierające: \n\t\t - Minimum dwie małe litery \n" +
+                "\t\t - Minimum Dwie duże litery \n \t\t - Minimum Dwie cyfry \n \t\t - Minimum 8 znaków");
+
+        builder11.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Write your code here to execute after dialog closed
+                //Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                builder11.cancel();
+            }
+        });
+        builder11.setCancelable(false);
+        builder11.show();
+
+
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,7 +108,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent inte = new Intent(this, MainActivity.class);
+        startActivity(inte);
+    }
 
     private void loginClicked() {
         EditText Logintmp = (EditText) findViewById(R.id.LoginRejestration);

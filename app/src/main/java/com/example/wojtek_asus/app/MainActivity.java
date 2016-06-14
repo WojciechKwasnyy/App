@@ -2,6 +2,7 @@ package com.example.wojtek_asus.app;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Context con = this;
     TextView password_tv;
     TextView username_tv;
+
     InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
         password_tv = (TextView) findViewById(R.id.InputHaslo);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.setAdListener(new AdListener()
-        {
-            @Override public void onAdClosed(){requestNewInterstitial();further();}});
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                Login();
+                requestNewInterstitial();
+            }
+        });
         requestNewInterstitial();
     }
 
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            Login (view);
+            Login ();
         }
 
     }
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent (this,ContactsList.class);
         startActivity(intent);
     }
-    public void Login(View view)
+    public void Login()
     {
 
         User.getInstance().password = password_tv.getText().toString();
@@ -116,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Register(View view)
     {
-        AlertDialog.Builder builder11 = new AlertDialog.Builder(this);
-        builder11.setMessage("Zarejestruj użytkownika").show();
         Intent intent = new Intent (this, RegistrationActivity.class);
         startActivity(intent);
 
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                     User.getInstance().username = username_tv.getText().toString();
                     Intent intent = new Intent(con, ContactsList.class);
-                    startService(new Intent(getApplicationContext(),CallingService.class));
+                    startService(new Intent(getApplicationContext(), CallingService.class));
                     startActivity(intent);
                 }
 

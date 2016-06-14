@@ -215,16 +215,29 @@ public class CallingService extends Service {
         @Override
         public void onIncomingCall(CallClient callClient, Call incomingCall) {
             //Pick up the call!
-            User.getInstance().call = incomingCall;
-            Toast.makeText(getApplicationContext(), "DZWONIO!!!!!!",
-                    Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(),RingingActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+
             // User.getInstance().call.answer();
 
             // btcall.setText("Hang Up");
-
+if(incomingCall.getDetails().isVideoOffered()== true)
+{
+    User.getInstance().call = incomingCall;
+    User.getInstance().call.answer();
+    Toast.makeText(getApplicationContext(), "Videło",
+            Toast.LENGTH_LONG).show();
+    Intent inte = new Intent(getApplicationContext(),CallActivity.class);
+    inte.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(inte);
+}
+            else
+{
+    User.getInstance().call = incomingCall;
+    Toast.makeText(getApplicationContext(), "Nie wideło",
+            Toast.LENGTH_LONG).show();
+    Intent intent = new Intent(getApplicationContext(),RingingActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+}
         }
 		/*public VideoController getVideoController() {
             if (!isStarted()) {
