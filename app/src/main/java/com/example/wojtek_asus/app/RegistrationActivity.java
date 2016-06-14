@@ -28,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     public int sum;
+    EditText loginn;
     AlertDialog builder11;
 
     @Override
@@ -42,8 +43,10 @@ public class RegistrationActivity extends AppCompatActivity {
             Firebase myFirebaseRef = new Firebase("https://fiery-torch-1348.firebaseio.com");
             Firebase.setAndroidContext(getApplicationContext());
             final EditText login = (EditText) findViewById(R.id.LoginRejestration);
+            loginn = login;
             EditText password = (EditText) findViewById(R.id.PasswordRejestration);
-
+            loginClicked();
+            passwordClicked();
             myFirebaseRef.createUser(login.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
                 @Override
                 public void onSuccess(Map<String, Object> result) {
@@ -60,13 +63,15 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             });
 
-            loginClicked();
-            passwordClicked();
+
         } catch (Exception ex) {
             AlertDialog.Builder builder113 = new AlertDialog.Builder(getApplicationContext());
             builder113.setMessage(ex.getMessage()).show();
         }
         if (sum < 1) {
+            AlertDialog.Builder builder119 = new AlertDialog.Builder(this);
+            builder119.setMessage("Dodano Użytkownika" + loginn.getText().toString());
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

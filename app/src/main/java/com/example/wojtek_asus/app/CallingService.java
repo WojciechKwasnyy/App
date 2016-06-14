@@ -81,8 +81,8 @@ public class CallingService extends Service {
                         public void run() {
 
                             // User.getInstance().username = username;
-                            Toast.makeText(getApplicationContext(), "Siemano tu serwis!", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(getApplicationContext(), "przeczytalem usera " + User.getInstance().username, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Serwis gotowy", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Zalogowano Użytkownika  " + User.getInstance().username, Toast.LENGTH_SHORT).show();
 
                             User.getInstance().sinchClient = Sinch.getSinchClientBuilder()
                                     .context(getApplicationContext())
